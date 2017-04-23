@@ -8,14 +8,17 @@ import sys
 import re
 
 location = 'jyvaskyla'
-searchterm = sys.argv[1]
+if len(sys.argv) > 1:
+    searchterm = sys.argv[1]
+else:
+    print "Anna yksi hakutermi!"
+    sys.exit()
 url = 'https://www.lounaat.info/' + location
 page = requests.get(url)
 tree = html.fromstring(page.content)
 
 menus = tree.xpath("/html/body/div[5]/div[2]/div[2]/*")
 info = []
-i = 1
 for e in menus:
     rafla = []
     namepath = 'div/h3/a/text()'
