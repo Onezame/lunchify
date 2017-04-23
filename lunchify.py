@@ -45,8 +45,3 @@ else:
     for place in places_with_food:
         print place
 
-
-def check_for_food(foods):
-  #  searchObj = re.search(r'(.*)%d(.*)' % searchterm, re.I)
-  #  return searchObj
-    return true
