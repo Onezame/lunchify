@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-
-# author Samu Kumpulainen, 23.4.2017
+# author Samu Kumpulainen, 24.4.2017
 # Checks lounaat.info's today's lunch menus for given searchterm
 from lxml import html
 import requests
