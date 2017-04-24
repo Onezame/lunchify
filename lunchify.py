@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: UTF-8 -*-
-#author Samu Kumpulainen, 23.4.2017
-#Checks lounaat.info's today's lunch menus for given searchterm 
+# author Samu Kumpulainen, 23.4.2017
+# Checks lounaat.info's today's lunch menus for given searchterm
 from lxml import html
 import requests
 import sys
@@ -9,12 +9,13 @@ import re
 
 location = 'jyvaskyla'
 if len(sys.argv) > 1:
-    searchterm = sys.argv[1]
+    searchterm = sys.argv[1].lower()
 else:
-    print "Anna yksi hakutermi!"
+    print("Anna yksi hakutermi!")
     sys.exit()
 url = 'https://www.lounaat.info/' + location
 page = requests.get(url)
+
 tree = html.fromstring(page.content)
 
 menus = tree.xpath("/html/body/div[5]/div[2]/div[2]/*")
@@ -32,19 +33,20 @@ for e in menus:
     for dish in dishes:
         rafla.append(dish)
     info.append(rafla)
-
-r = re.compile(".*%s.*" % searchterm)
+r = re.compile("(?i).*%s.*" % searchterm)
 places_with_food = []
 
 for restaurant in info:
     foods = restaurant[1:]
-    if len((filter(r.search, foods))) > 0:
-        places_with_food.append(restaurant[0])
+    lista = [elem for elem in foods if r.search(elem)]
+    if  len (lista)  > 0:
+        places_with_food.append(restaurant[0] + ": " + ''.join(lista) + '\n')
 
 if not len(places_with_food) > 0:
-    print "Ei löydy tänään lounaspaikkaa, jossa olisi", searchterm
+    print("Ei löydy tänään lounaspaikkaa, jossa olisi", searchterm)
 else:
-    print "Ravintolat, joista löytyy tänään ", searchterm, ":"
+    print("Ravintolat, joista löytyy tänään ", searchterm, ":")
+    print("----------------------------------")
     for place in places_with_food:
-        print place
-
+        print(place)
+    print("----------------------------------")
